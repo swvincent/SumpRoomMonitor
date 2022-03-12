@@ -23,14 +23,8 @@ void ProcessAlarmState()
     {
       alarmState = reading;
 
-      if (alarmState == SUMP_OKAY)
-      {
-        NotifySumpOkay();
-      }
-      else
-      {
-        NotifySumpAlarm();
-      }
+      notifySumpOkay = alarmState == SUMP_OKAY;
+      notifySumpAlarm = alarmState != SUMP_OKAY;
     }
   }
 

@@ -8,14 +8,16 @@
  * See LICENSE file for details
  */
 
-void NotifySumpAlarm()
+bool notifySumpAlarm = false;
+bool notifySumpOkay = false;
+
+void ProcessNotifications()
 {
-  Serial.println("Sump Pump Alarm");
-  po.setTitle("Sump Pump Alarm");
-  po.setMessage("The sump pump controller is in an alarm condition.");
-  po.setSound("vibrate");
-  po.setPriority(1);
-  Serial.println(po.send());
+  if (notifySumpOkay)
+    NotifySumpOkay();
+
+  if (notifySumpAlarm)
+    NotifySumpAlarm();
 }
 
 void NotifySumpOkay()
@@ -26,4 +28,18 @@ void NotifySumpOkay()
   po.setSound("vibrate");
   po.setPriority(0);
   Serial.println(po.send());
+
+  notifySumpOkay = false;
+}
+
+void NotifySumpAlarm()
+{
+  Serial.println("Sump Pump Alarm");
+  po.setTitle("Sump Pump Alarm");
+  po.setMessage("The sump pump controller is in an alarm condition.");
+  po.setSound("vibrate");
+  po.setPriority(1);
+  Serial.println(po.send());
+
+  notifySumpAlarm = false;
 }

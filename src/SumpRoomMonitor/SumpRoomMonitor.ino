@@ -15,7 +15,7 @@
 const int ALARM_RELAY = 9;
 
 // Alarm Monitoring
-const unsigned long MIN_ALARM_TIME = 10000;
+const unsigned long MIN_ALARM_TIME = 5000;
 const int SUMP_OKAY = LOW;
 
 unsigned long alarmStateChangeMillis;
@@ -42,4 +42,5 @@ void setup()
 void loop() 
 {
   ProcessAlarmState();
+  ProcessNotifications();
 }
