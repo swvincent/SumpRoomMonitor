@@ -11,19 +11,19 @@
 void NotifySumpAlarm()
 {
   Serial.println("Sump Pump Alarm");
-  pushover_button.setTitle("Sump Pump Alarm");
-  pushover_button.setMessage("The sump pump controller is in an alarm condition.");
-  pushover_button.setSound("vibrate");
-  pushover_button.setPriority(1);
-  Serial.println(pushover_button.send());
+  po.setTitle("Sump Pump Alarm");
+  po.setMessage("The sump pump controller is in an alarm condition.");
+  po.setSound("vibrate");
+  po.setPriority(1);
+  Serial.println(po.send());
 }
 
 void NotifySumpOkay()
 {
   Serial.println("Sump Pump Okay");
-  pushover_button.setTitle("Sump Pump Okay");
-  pushover_button.setMessage("The sump pump controller is okay.");
-  pushover_button.setSound("vibrate");
-  pushover_button.setPriority(0);
-  Serial.println(pushover_button.send());
+  po.setTitle("Sump Pump Okay");
+  po.setMessage("The sump pump controller is okay.");
+  po.setSound("vibrate");
+  po.setPriority(0);
+  Serial.println(po.send());
 }

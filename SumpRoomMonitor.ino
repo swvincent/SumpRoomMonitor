@@ -37,65 +37,9 @@ void setup()
   setupIO();
   setupWiFi();
 }
-
-// I/O Setup
-void setupIO()
-{
-  pinMode(ALARM_RELAY, INPUT_PULLUP);
-}
-
-// WiFi Setup
-void setupWiFi()
-{
-  delay(10);
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(WIFI_SSID);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
- 
-  while (WiFi.status() != WL_CONNECTED) 
-    {
-    delay(500);
-    Serial.print(".");
-    }
- 
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
-}
  
 // Main Loop
 void loop() 
 {
   ProcessAlarmState();
-}
-
-void ProcessAlarmState()
-{
-  int reading = digitalRead(ALARM_RELAY);
-
-  if (reading != lastAlarmState)
-  {
-    alarmStateChangeMillis = millis();
-  }
-  
-  if ((millis() - alarmStateChangeMillis) > MIN_ALARM_TIME)
-  {
-    if (alarmState != reading)
-    {
-      alarmState = reading;
-
-      if (alarmState == SUMP_OKAY)
-      {
-        NotifySumpOkay();
-      }
-      else
-      {
-        NotifySumpAlarm();
-      }
-    }
-  }
-
-  lastAlarmState = reading;
 }
