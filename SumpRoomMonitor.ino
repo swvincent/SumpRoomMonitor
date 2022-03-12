@@ -1,15 +1,11 @@
 /*
  * Sump Room Monitor
- * Scott W. Vincent
+ * Main Program
  * 
- * Uses Pushover library by Arduino Hannover
- * https://github.com/ArduinoHannover/Pushover
- * 
- * WiFi Setup based on:
- * https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html
- * 
- * Also helpful:
- * https://www.arduino.cc/en/Tutorial/BuiltInExamples/Debounce
+ * Copyright 2022 by Scott W. Vincent
+ * www.swvincent.com
+ * Licensed under GNU General Public License v2.0
+ * See LICENSE file for details
  */
 
 #include <ESP8266WiFi.h>
@@ -18,11 +14,13 @@
 // I/O Settings
 const int ALARM_RELAY = 9;
 
-// Logic
-const unsigned long MIN_ALARM_TIME = 5000;
+// Alarm Monitoring
+const unsigned long MIN_ALARM_TIME = 10000;
+const int SUMP_OKAY = LOW;
+
 unsigned long alarmStateChangeMillis;
-int alarmState = LOW;
-int lastAlarmState = LOW;
+int alarmState = SUMP_OKAY;
+int lastAlarmState = SUMP_OKAY;
 
 // WiFi Settings
 const char* WIFI_SSID = "SSID";
@@ -88,36 +86,16 @@ void ProcessAlarmState()
     {
       alarmState = reading;
 
-      if (alarmState == HIGH)
+      if (alarmState == SUMP_OKAY)
       {
-        NotifySumpAlarm();
+        NotifySumpOkay();
       }
       else
       {
-        NotifySumpOkay();
+        NotifySumpAlarm();
       }
     }
   }
 
   lastAlarmState = reading;
-}
-
-void NotifySumpAlarm()
-{
-  Serial.println("Sump Pump Alarm");
-  pushover_button.setTitle("Sump Pump Alarm");
-  pushover_button.setMessage("The sump pump controller is in an alarm condition.");
-  pushover_button.setSound("vibrate");
-  pushover_button.setPriority(1);
-  Serial.println(pushover_button.send());
-}
-
-void NotifySumpOkay()
-{
-  Serial.println("Sump Pump Okay");
-  pushover_button.setTitle("Sump Pump Okay");
-  pushover_button.setMessage("The sump pump controller is okay.");
-  pushover_button.setSound("vibrate");
-  pushover_button.setPriority(0);
-  Serial.println(pushover_button.send());
 }
