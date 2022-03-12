@@ -1,4 +1,4 @@
-# sump-room-monitor
+# Sump Room Monitor
 
 Source code for my Sump Room Monitor which runs on a generic ESP8266 board and uses Pushover for notifications.
 
