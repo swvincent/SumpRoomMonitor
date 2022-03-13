@@ -13,10 +13,14 @@ bool notifySumpOkay = false;
 
 void ProcessNotifications()
 {
+  // Wait until minimum interval notification time has passed
+  if ((millis() - lastNotificationTime) < MIN_PUSHOVER_INTERVAL)
+    return;
+
+  // Only one notification per interval to "be nice" to the API
   if (notifySumpOkay)
     NotifySumpOkay();
-
-  if (notifySumpAlarm)
+  else if (notifySumpAlarm)
     NotifySumpAlarm();
 }
 
@@ -30,6 +34,7 @@ void NotifySumpOkay()
   Serial.println(po.send());
 
   notifySumpOkay = false;
+  lastNotificationTime = millis();
 }
 
 void NotifySumpAlarm()
@@ -42,4 +47,17 @@ void NotifySumpAlarm()
   Serial.println(po.send());
 
   notifySumpAlarm = false;
+  lastNotificationTime = millis();
+}
+
+void NotifyStartup()
+{
+  Serial.println("Startup Notification");
+  po.setTitle("Sump Pump Monitor Running");
+  po.setMessage("The sump pump monitoring system has started.");
+  //po.setSound("vibrate");
+  po.setPriority(-1);
+  Serial.println(po.send());
+
+  lastNotificationTime = millis();
 }

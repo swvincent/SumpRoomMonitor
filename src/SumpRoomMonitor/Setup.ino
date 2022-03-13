@@ -12,22 +12,30 @@
 void setupIO()
 {
   pinMode(ALARM_RELAY, INPUT_PULLUP);
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 // WiFi Setup
 void setupWiFi()
 {
-  delay(10);
+  delay(100);
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(WIFI_SSID);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
  
   while (WiFi.status() != WL_CONNECTED) 
-    {
-    delay(500);
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(125);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(125);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(125);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(125);
     Serial.print(".");
-    }
+  }
  
   Serial.println("");
   Serial.println("WiFi connected");

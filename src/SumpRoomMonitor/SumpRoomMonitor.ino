@@ -11,7 +11,7 @@
 #include <ESP8266WiFi.h>
 #include "Pushover.h"
 
-// I/O Settings
+// I/O
 const int ALARM_RELAY = 9;
 
 // Alarm Monitoring
@@ -29,6 +29,9 @@ const char* WIFI_PASS = "Password";
 // Pushover
 Pushover po = Pushover("SecureAppToken","UserToken", UNSAFE);
 
+const unsigned long MIN_PUSHOVER_INTERVAL = 10000;
+unsigned long lastNotificationTime = millis() - MIN_PUSHOVER_INTERVAL;
+
 // Setup Function
 void setup() 
 {
@@ -36,6 +39,8 @@ void setup()
 
   setupIO();
   setupWiFi();
+
+  NotifyStartup();
 }
  
 // Main Loop
